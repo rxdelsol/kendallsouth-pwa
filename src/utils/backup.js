@@ -1,8 +1,6 @@
 import { openDB } from 'idb'
-
 const DB_NAME = 'pct-db-static'
 const STORE = 'credentials'
-
 export async function exportJSON() {
   const db = await openDB(DB_NAME, 1)
   const all = await db.getAll(STORE)
@@ -17,7 +15,6 @@ export async function exportJSON() {
   a.remove()
   URL.revokeObjectURL(url)
 }
-
 export async function importJSON(file) {
   const text = await file.text()
   const data = JSON.parse(text)
@@ -25,14 +22,7 @@ export async function importJSON(file) {
   const db = await openDB(DB_NAME, 1)
   const tx = db.transaction(STORE, 'readwrite')
   for (const item of data.items) {
-    // Upsert by id if present, else add
-    try {
-      if (item && typeof item === 'object') {
-        await tx.store.put(item)
-      }
-    } catch (e) {
-      console.warn('Import item failed', e)
-    }
+    try{ if (item && typeof item === 'object') { await tx.store.put(item) } }catch(e){ console.warn('Import item failed', e) }
   }
   await tx.done
   return data.items.length

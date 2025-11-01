@@ -1,6 +1,7 @@
 import { openDB } from 'idb'
 let db
 export async function initDB(){
+  if (db) return db
   db = await openDB('pct-db-static', 1, {
     upgrade(db){
       const s = db.createObjectStore('credentials', { keyPath:'id', autoIncrement:true })
@@ -9,17 +10,20 @@ export async function initDB(){
       s.createIndex('by_exp','expiry_date')
     }
   })
+  return db
 }
+function ensure(){ if(!db) throw new Error('DB not initialized. Call initDB() first.') }
 function daysUntil(dateStr){ try{ const t=new Date(dateStr+'T00:00:00'); const n=new Date(); return Math.ceil((t-n)/(1000*60*60*24)) }catch{return null} }
 export async function listCreds(filter=''){
+  ensure()
   const tx = db.transaction('credentials'); const all = await tx.store.getAll()
   const f = (filter||'').toLowerCase()
   return all.filter(r => !f || [r.provider,r.credential_type,r.notes||''].some(x => (x||'').toLowerCase().includes(f)))
             .map(r => ({...r, days_left: daysUntil(r.expiry_date)}))
 }
-export async function addCred(data){ const tx = db.transaction('credentials','readwrite'); const id = await tx.store.add(data); await tx.done; return id }
-export async function updateCred(id, data){ const tx = db.transaction('credentials','readwrite'); await tx.store.put({...data,id}); await tx.done }
-export async function deleteCred(id){ const tx = db.transaction('credentials','readwrite'); await tx.store.delete(id); await tx.done }
+export async function addCred(data){ ensure(); const tx = db.transaction('credentials','readwrite'); const id = await tx.store.add(data); await tx.done; return id }
+export async function updateCred(id, data){ ensure(); const tx = db.transaction('credentials','readwrite'); await tx.store.put({...data,id}); await tx.done }
+export async function deleteCred(id){ ensure(); const tx = db.transaction('credentials','readwrite'); await tx.store.delete(id); await tx.done }
 export async function exportCSV(rows){
   const headers = ['ID','Provider','Type','Issued','Expires','Days','Notify Email']
   const lines = [headers.join(',')]

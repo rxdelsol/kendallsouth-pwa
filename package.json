@@ -1,5 +1,5 @@
 {
-  "name": "provider-credential-tracker-pwa-static",
+  "name": "provider-credential-tracker-pwa-static-persist",
   "version": "1.0.0",
   "private": true,
   "type": "module",

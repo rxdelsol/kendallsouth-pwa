@@ -1,10 +1,7 @@
 export async function lookupNPI(npi){
   const clean = String(npi||'').replace(/\D/g,'')
   if(clean.length !== 10) throw new Error('NPI must be 10 digits')
-
   const url = `https://npiregistry.cms.hhs.gov/api/?version=2.1&number=${clean}`
-
-  // Helper to parse the API payload
   const parse = (data) => {
     if(!data || !data.results || !data.results.length) throw new Error('No results for that NPI')
     const r = data.results[0]
@@ -20,15 +17,12 @@ export async function lookupNPI(npi){
       state: practice.state || '',
     }
   }
-
-  // Try direct call first
   try{
     const res = await fetch(url, { method: 'GET' })
     if(!res.ok) throw new Error(`NPI API error: ${res.status}`)
     const data = await res.json()
     return parse(data)
   }catch(e){
-    // Fallback: AllOrigins CORS proxy (read-only, GET only)
     try{
       const wrapped = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url)
       const res2 = await fetch(wrapped, { method: 'GET' })
@@ -36,7 +30,6 @@ export async function lookupNPI(npi){
       const data2 = await res2.json()
       return parse(data2)
     }catch(e2){
-      // Surface the more useful message
       throw new Error(`NPI lookup failed. Details: ${e2.message || e.message}`)
     }
   }

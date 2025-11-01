@@ -36,7 +36,7 @@ export default function App(){
         <img src={LOGO} alt="Kendall South Medical Center logo"/>
         <div>
           <h1>Kendall South Medical Center — Provider Credential Tracker</h1>
-          <div className="muted" style={{fontSize:12}}>Installable PWA — Website only (no backend)</div>
+          <div className="muted" style={{fontSize:12}}>Installable PWA — Website only (autosave enabled)</div>
         </div>
       </div>
       <div className="toolbar">
@@ -46,15 +46,15 @@ export default function App(){
 
     <div className="container">
       <div className="toolbar" style={{marginBottom:12}}>
+        <button className="secondary" onClick={()=>exportJSON()}>💾 Backup</button>
+        <input ref={fileRef} type="file" accept="application/json" style={{display:'none'}} onChange={e=>{ const f=e.target.files?.[0]; if(f) doImport(f); e.target.value=''; }} />
+        <button className="secondary" onClick={()=>fileRef.current?.click()}>📥 Restore</button>
         <input placeholder="Filter..." value={filter} onChange={e=>setFilter(e.target.value)} />
         <button onClick={()=>setFilter(filter)}>Apply</button>
         <button className="secondary" onClick={()=>setFilter('')}>Clear</button>
         <button onClick={()=>{ setEdit(null); setForm(empty); setOpen(true) }}>➕ Add</button>
         <button className="secondary" onClick={refresh}>🔄 Reload</button>
         <button className="secondary" onClick={async()=>exportCSV(await listCreds(filter))}>⬇️ CSV</button>
-        <button className="secondary" onClick={()=>exportJSON()}>💾 Backup</button>
-        <input ref={fileRef} type="file" accept="application/json" style={{display:'none'}} onChange={e=>{ const f=e.target.files?.[0]; if(f) doImport(f); e.target.value=''; }} />
-        <button className="secondary" onClick={()=>fileRef.current?.click()}>📥 Restore</button>
       </div>
 
       <table>
