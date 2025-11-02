@@ -1,0 +1,12 @@
+/api
+  /auth
+    login.js
+    me.js
+    register.js
+  /creds
+    index.js
+    [id].js
+  _auth.js
+  _db.js
+  health.js
+  setup.js
