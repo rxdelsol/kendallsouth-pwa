@@ -9,5 +9,5 @@ th,td{padding:10px 12px;border-bottom:1px solid var(--border);text-align:left;fo
 .row-actions{display:flex;gap:8px}.muted{color:var(--muted)}.good{color:var(--ok)}.warn{color:var(--warn)}.danger{color:var(--danger)}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center}.modal{width:760px;max-width:92vw;background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:16px}
-.badge{font-size:12px;padding:2px 8px;border-radius:999px;background:#10224a;color:#cfe0ff;border:1px solid #27407f}
-.code{background:#0c1430;border:1px solid #1b2a55;padding:8px;border-radius:8px;font-family:ui-monospace,Menlo,Consolas,monospace;color:#cfe0ff}
+.auth-card{width:420px;max-width:92vw;margin:12vh auto;background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:18px}
+h2{margin-top:0}
