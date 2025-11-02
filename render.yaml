@@ -1,0 +1,17 @@
+
+services:
+  - type: web
+    name: kendallsouth-express-api
+    env: node
+    plan: free
+    buildCommand: "npm ci && npx prisma generate"
+    startCommand: "npm start"
+    envVars:
+      - key: DATABASE_URL
+        value: file:./dev.db
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ALLOWED_ORIGIN
+        value: https://YOUR-FRONTEND.vercel.app
+      - key: PORT
+        value: 4000
