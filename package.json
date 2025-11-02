@@ -1,21 +1,16 @@
 {
-  "name": "provider-credential-tracker-pwa-static-persist",
+  "name": "pct-auth-server",
   "version": "1.0.0",
-  "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "start": "node server/index.js"
   },
   "dependencies": {
-    "idb": "^8.0.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "date-fns": "^4.1.0"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.0"
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^9.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
   }
 }
